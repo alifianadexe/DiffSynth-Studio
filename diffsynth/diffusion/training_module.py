@@ -209,7 +209,8 @@ class DiffusionTrainingModule(torch.nn.Module):
                     offload=path in offload_models,
                     device=device
                 )
-                model_configs.append(ModelConfig(path=path, quantize=quant_map.get(path), **vram_config))
+                quantize = quant_map.get(path) if isinstance(path, str) else None
+                model_configs.append(ModelConfig(path=path, quantize=quantize, **vram_config))
         if model_id_with_origin_paths is not None:
             model_id_with_origin_paths = model_id_with_origin_paths.split(",")
             for model_id_with_origin_path in model_id_with_origin_paths:
